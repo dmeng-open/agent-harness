@@ -24,13 +24,13 @@ import traceback
 from pathlib import Path
 from typing import Callable, Optional, Sequence
 
-from agent_harness.llm import LM, BudgetExceeded, OutputTruncated
-from agent_harness.simulation.checks import run_checks
-from agent_harness.simulation.judge import judge_record
-from agent_harness.simulation.persona import Persona
-from agent_harness.simulation.persona_user import PersonaUser
-from agent_harness.simulation.record import ConversationRecord, JudgeResult, SessionRecord
-from agent_harness.types import AgentConfig
+from harness.llm import LM, BudgetExceeded, OutputTruncated
+from harness.simulation.checks import run_checks
+from harness.simulation.judge import judge_record
+from harness.simulation.persona import Persona
+from harness.simulation.persona_user import PersonaUser
+from harness.simulation.record import ConversationRecord, JudgeResult, SessionRecord
+from harness.types import AgentConfig
 
 # The agent limits used for every evaluation conversation.
 EVAL_MAX_TURNS = 20  # model calls per user message
@@ -108,7 +108,7 @@ def build_config(persona: Persona, user: PersonaUser, memory_dir: Path, workspac
 def _make_workspace(path: Path) -> Path:
     """A fresh terminal workspace holding the corpus (see sandbox.py)."""
     try:
-        from agent_harness.sandbox import make_workspace
+        from harness.sandbox import make_workspace
     except ImportError:  # the sandbox module is not needed by agents without a terminal
         path.mkdir(parents=True, exist_ok=True)
         return path

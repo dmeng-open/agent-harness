@@ -20,7 +20,7 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass, field
 
-from agent_harness.types import ToolSpec
+from harness.types import ToolSpec
 
 TOOL_NAMES = ["echo", "add", "lookup", "fail", "slow", "big_output", "write_note"]
 

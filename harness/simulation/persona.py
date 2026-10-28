@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
-from agent_harness.simulation.checks import CHECKS
+from harness.simulation.checks import CHECKS
 
 CATEGORIES = (
     "doc_lookup",

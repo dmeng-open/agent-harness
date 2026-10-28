@@ -12,7 +12,7 @@ import functools
 import json
 from pathlib import Path
 
-from agent_harness.types import Email
+from harness.types import Email
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 EMAILS_PATH = REPO_ROOT / "data" / "emails" / "emails.jsonl"

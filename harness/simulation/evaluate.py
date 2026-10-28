@@ -8,10 +8,10 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Callable, Optional, Sequence
 
-from agent_harness.llm import LM
-from agent_harness.simulation.persona import Persona
-from agent_harness.simulation.record import ConversationRecord
-from agent_harness.simulation.runner import eval_salt, run_persona
+from harness.llm import LM
+from harness.simulation.persona import Persona
+from harness.simulation.record import ConversationRecord
+from harness.simulation.runner import eval_salt, run_persona
 
 EVAL_SIZE = 20  # conversations in the full evaluation
 FULL_CREDIT = 16  # successful conversations needed for full credit
@@ -28,7 +28,7 @@ def adapter_agent_factory(adapters, model: Optional[str] = None) -> AgentFactory
     """The factory the evaluation uses: your ``run_agent_session`` adapter
     with the full Cardinal toolset (``tools=None``).
 
-    ``adapters`` is the ``agent_harness.adapters`` module. ``model`` is a role or
+    ``adapters`` is the ``harness.adapters`` module. ``model`` is a role or
     model name for the agent; None means "agent".
     Each persona gets its own LM objects so cost can be reported per
     conversation. A second LM is passed as ``AgentConfig.aux_lm``.

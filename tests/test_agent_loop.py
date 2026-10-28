@@ -15,10 +15,10 @@ import copy
 
 import pytest
 
-from agent_harness.llm import ScriptExhausted
-from agent_harness.tokens import count_message_tokens, count_tokens
-from agent_harness.types import AgentConfig, AgentResult, ToolCall
-from agent_harness import adapters
+from harness.llm import ScriptExhausted
+from harness.tokens import count_message_tokens, count_tokens
+from harness.types import AgentConfig, AgentResult, ToolCall
+from harness import adapters
 from tests.fixture_tools import DIRECTORY, FAIL_MESSAGE, TOOL_NAMES, make_fixture_tools
 from tests.helpers import events, truncated
 
@@ -87,7 +87,7 @@ def send(session, message: str) -> AgentResult:
             pytrace=False,
         )
     assert isinstance(result, AgentResult), (
-        f"send must return a agent_harness.types.AgentResult, got {type(result).__name__}"
+        f"send must return a harness.types.AgentResult, got {type(result).__name__}"
     )
     assert isinstance(result.text, str), f"AgentResult.text must be a str, got {result.text!r}"
     return result

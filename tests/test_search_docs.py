@@ -9,7 +9,7 @@ Rules the deterministic tests check:
 
 * ``run_search_docs(index, query, k)`` returns a list of at most k dicts with the
   keys doc_id, title, snippet. doc_id and title are those of a real document
-  (see ``agent_harness.data.load_docs``). A query that matches nothing returns [].
+  (see ``harness.data.load_docs``). A query that matches nothing returns [].
   Two results may come from the same document (for example two passages of
   it), and a result may carry keys besides these three.
 * A snippet is at most SNIPPET_MAX_TOKENS tokens and contains text from its
@@ -32,11 +32,11 @@ from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 
-from agent_harness import data
-from agent_harness.tokenizer import tokenize
-from agent_harness.tokens import count_tokens
-from agent_harness.types import AgentConfig
-from agent_harness import adapters
+from harness import data
+from harness.tokenizer import tokenize
+from harness.tokens import count_tokens
+from harness.types import AgentConfig
+from harness import adapters
 from tests.conftest import eval_slice
 from tests.helpers import contains_any, events, load_fixture
 from tests.thresholds import SEARCH_DOCS_MAX_RESULT_TOKENS, SEARCH_DOCS_MIN_ACCURACY
@@ -130,7 +130,7 @@ def test_search_results_have_the_right_shape_and_point_to_real_documents(query):
 def test_snippets_are_short_and_come_from_the_document(query):
     """Each snippet is at most SNIPPET_MAX_TOKENS tokens and shares at least
     SNIPPET_SHARED_RUN consecutive words with the text of its document
-    (compared after agent_harness.tokenizer.tokenize, so markers such as line
+    (compared after harness.tokenizer.tokenize, so markers such as line
     numbers or ellipses around the quoted text are fine)."""
     docs = docs_by_id()
     for r in search(query, 5):

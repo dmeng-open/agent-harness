@@ -8,8 +8,8 @@ The live test plays every persona in ``tests/fixtures/personas/`` against
 your full agent (``run_agent_session(lm, None, config)``), scores each
 conversation with the programmatic checks and the judge, and prints one row
 per persona. How a conversation is run and scored is documented in
-``agent_harness/simulation/README.md``. The same run is available as
-``uv run python -m agent_harness.simulation``.
+``harness/simulation/README.md``. The same run is available as
+``uv run python -m harness.simulation``.
 
 Environment variables for the live test:
     HARNESS_EVAL_SLICE=N        run only the first N personas
@@ -23,8 +23,8 @@ import os
 
 import pytest
 
-from agent_harness.llm import ScriptedLM
-from agent_harness.simulation import (
+from harness.llm import ScriptedLM
+from harness.simulation import (
     adapter_agent_factory,
     format_table,
     load_personas,
@@ -33,9 +33,9 @@ from agent_harness.simulation import (
     run_eval,
     run_persona,
 )
-from agent_harness.simulation.evaluate import DEFAULT_CONCURRENCY, EVAL_SIZE, new_run_dir
-from agent_harness.simulation.record import tool_calls
-from agent_harness import adapters
+from harness.simulation.evaluate import DEFAULT_CONCURRENCY, EVAL_SIZE, new_run_dir
+from harness.simulation.record import tool_calls
+from harness import adapters
 from tests import thresholds
 from tests.conftest import eval_slice
 from tests.fixture_tools import DIRECTORY, make_fixture_tools

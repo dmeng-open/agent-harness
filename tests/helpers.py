@@ -13,7 +13,7 @@ def truncated(text: str = "", *, max_tokens: int = 64):
     """A ScriptedLM script entry that raises OutputTruncated, as the real LM
     does when the model stops at max_tokens. ``text`` is what the model had
     written so far (``exc.text``)."""
-    from agent_harness.llm import OutputTruncated
+    from harness.llm import OutputTruncated
 
     def raise_it(messages):
         raise OutputTruncated(

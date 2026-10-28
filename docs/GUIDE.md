@@ -4,7 +4,7 @@ This project builds LLM pipelines and a tool-calling agent on top of one
 primitive, `lm(messages) -> str`. The infrastructure is in place: the model
 wrapper, sandbox, data loaders, simulated-user evaluation, and the full test
 suite. The implementation is not written yet. Every function in
-[`agent_harness/adapters.py`](../agent_harness/adapters.py) is a stub, and
+[`harness/adapters.py`](../harness/adapters.py) is a stub, and
 every test fails with `NotImplementedError`.
 
 This guide describes each module, the interface contract the tests check,
@@ -43,11 +43,11 @@ Useful commands once code exists:
 ```sh
 uv run pytest tests/test_bm25.py                       # one milestone
 HARNESS_EVAL_SLICE=5 uv run pytest tests/test_priority.py -m live -s   # live, first 5 items
-uv run python -m agent_harness.llm                     # spending report from the ledger
-uv run python -m agent_harness.show bm25 "larchfield audit"
-uv run python -m agent_harness.chat --mode confirm     # talk to the agent
-uv run python -m agent_harness.simulation --slice 3    # simulated-user evaluation
-uv run python -c "from agent_harness import sandbox; print(sandbox.jail())"
+uv run python -m harness.llm                     # spending report from the ledger
+uv run python -m harness.show bm25 "larchfield audit"
+uv run python -m harness.chat --mode confirm     # talk to the agent
+uv run python -m harness.simulation --slice 3    # simulated-user evaluation
+uv run python -c "from harness import sandbox; print(sandbox.jail())"
 ```
 
 ---
@@ -66,7 +66,7 @@ agent-harness/
   .env                              API key; gitignored, never commit
   docs/GUIDE.md                     this file
 
-  agent_harness/
+  harness/
     adapters.py          implementation  the ONLY entry point the tests call; 14 stubs
     pipelines/           implementation  empty; home for Part 1
     agent/               implementation  empty; home for Part 2
@@ -110,12 +110,12 @@ agent-harness/
 
 The tests, `show.py`, `chat.py`, and `simulation/` reach the implementation
 only through the functions in
-[`agent_harness/adapters.py`](../agent_harness/adapters.py). Implement the
+[`harness/adapters.py`](../harness/adapters.py). Implement the
 logic anywhere in the package, and make each adapter a thin call into it:
 
 ```python
 def run_priority(email, lm):
-    from agent_harness.pipelines.priority import classify_priority
+    from harness.pipelines.priority import classify_priority
     return classify_priority(email, lm)
 ```
 
@@ -216,7 +216,7 @@ types they do not know.
 ### 4.2 `llm.py`: the only model primitive
 
 ```python
-from agent_harness.llm import LM
+from harness.llm import LM
 lm = LM()                    # agent model: anthropic/claude-haiku-5-5
 judge = LM("judge")          # anthropic/claude-sonnet-5-5
 text = lm([{"role": "system", "content": "..."}, {"role": "user", "content": "..."}])
@@ -236,7 +236,7 @@ text = lm([{"role": "system", "content": "..."}, {"role": "user", "content": "..
   call is free. Empty and truncated replies are never cached.
 - **Ledger.** Each uncached call is appended to `.lm_cache/ledger.jsonl` with
   its tokens, cost, time, tag, and finish reason.
-  `uv run python -m agent_harness.llm` prints totals by model and by tag.
+  `uv run python -m harness.llm` prints totals by model and by tag.
 - **Budget.** Once the ledger total reaches `HARNESS_BUDGET_USD`, the wrapper
   raises `BudgetExceeded` instead of making new calls. Cached replies are
   still returned.
@@ -372,7 +372,7 @@ every tool call (arguments up to 300 characters), the first 300 characters of
 each result, and up to two 200-character passages of a longer result that
 contain a number or name the agent stated. A specific fact with no supporting
 tool call counts as **fabrication**. Full details are in
-[`agent_harness/simulation/README.md`](../agent_harness/simulation/README.md).
+[`harness/simulation/README.md`](../harness/simulation/README.md).
 
 ---
 
@@ -583,7 +583,7 @@ guardrails → evaluation.
 4. Milestones 8, 9, and 10, then 11 and 12, then 13 and 14.
 5. Milestone 15 (sim_eval), iterating on prompts and tool descriptions with
    `--slice` and `--only`.
-6. Dogfooding. Run `agent_harness.chat` in confirm mode on at least five
+6. Dogfooding. Run `harness.chat` in confirm mode on at least five
    kinds of request: a document question, an archive question, a task that
    needs the terminal, a request the agent should clarify before acting, and
    one it should refuse or have denied. Check each answer against the source,
@@ -617,7 +617,7 @@ record what you chose and why while you build.
   libraries are `openai`, `python-dotenv`, `jsonschema`, `numpy`, and
   `pytest`. The point is to build every layer above the chat-completion
   call by hand.
-- **Keep the package self-contained.** Helpers live inside `agent_harness/`.
+- **Keep the package self-contained.** Helpers live inside `harness/`.
 - **Use the shared types as they are**, and keep the adapter signatures
   exactly as they are.
 - **`aux_lm` for every non-agent-turn call**: compaction summaries and the LLM

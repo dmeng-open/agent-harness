@@ -1,7 +1,7 @@
 """The ONLY file that connects the implementation to the tests.
 
 Every function below ships as a stub. To complete a milestone, implement the
-functionality anywhere you like inside the ``agent_harness`` package and replace
+functionality anywhere you like inside the ``harness`` package and replace
 the stub's body with a call into your code. Keep the signatures exactly as
 they are: the tests call these functions and nothing else of yours.
 
@@ -10,7 +10,7 @@ self-contained.
 
 The types named here (Email, ToolSpec, ToolCall, ToolResult, ParsedResponse,
 AgentConfig, AgentResult, SearchResult, DocWindow) are defined in
-``agent_harness/types.py``. ``lm`` is always an ``LMCallable``: it takes a list
+``harness/types.py``. ``lm`` is always an ``LMCallable``: it takes a list
 of ``{"role", "content"}`` messages and returns a string, and nothing else.
 It is a real ``LM`` in the live tests and a ``ScriptedLM`` in the
 deterministic tests. Calling it looks like this:
@@ -27,7 +27,7 @@ from __future__ import annotations
 
 from typing import Any, Callable, Optional
 
-from agent_harness.types import (
+from harness.types import (
     AgentConfig,
     DocWindow,
     Email,
@@ -84,7 +84,7 @@ def run_bm25_build(docs: list[str]) -> Any:
     """Milestone (bm25).
 
     Build and return a BM25 index over ``docs``. Document ids are list
-    positions. Tokenize with ``agent_harness.tokenizer.tokenize``. A document
+    positions. Tokenize with ``harness.tokenizer.tokenize``. A document
     with no tokens is still a document (it counts in N and in the average
     length). The returned object is opaque to the tests; they only pass it
     back to ``run_bm25_search``. The index over the archive must build in
@@ -239,7 +239,7 @@ def run_agent_session(
     ``tools`` is the list of tools the agent may call. ``None`` means the
     Cardinal toolset (search_emails, read_email, email_qa, daily_digest,
     search_docs, read_doc, run_terminal, remember, recall, ask_user; see
-    ``agent_harness/cardinal.py``), and creating such a session must not read
+    ``harness/cardinal.py``), and creating such a session must not read
     the email archive. With an explicit list the session has exactly those
     tools, plus ask_user if ``config.user`` is set, plus remember and recall
     if ``config.memory_dir`` is set.
@@ -255,8 +255,8 @@ def run_agent_session(
     conversation that shares only the persistent memory.
 
     Rules the tests check, by problem. Token counts use
-    ``agent_harness.tokens``. Transcript events are described in
-    ``agent_harness/types.py``.
+    ``harness.tokens``. Transcript events are described in
+    ``harness/types.py``.
 
     (agent_loop)
     * ``send`` does not raise for anything the model writes or a tool
@@ -342,7 +342,7 @@ def run_agent_session(
 def run_build_doc_index(docs: list[dict]) -> Any:
     """Milestone (search_docs). Index the company documents.
 
-    ``docs`` is what ``agent_harness.data.load_docs()`` returns: one dict per
+    ``docs`` is what ``harness.data.load_docs()`` returns: one dict per
     document with ``doc_id``, ``title``, and ``text``. Return whatever
     ``run_search_docs`` and ``run_read_doc`` need (your BM25 index over
     documents or chunks, plus the texts). The tests build it once and pass
@@ -358,7 +358,7 @@ def run_search_docs(index: Any, query: str, k: int = 5) -> list[SearchResult]:
     Rules the tests check:
     * Returns a list of at most k dicts with the keys doc_id, title,
       snippet. ``doc_id`` and ``title`` are those of
-      ``agent_harness.data.load_docs()``.
+      ``harness.data.load_docs()``.
     * A query that matches nothing, or has no tokens, returns [].
     * A snippet is at most 150 tokens (``count_tokens``) and shares at least
       4 consecutive words with its document.
@@ -373,7 +373,7 @@ def run_read_doc(index: Any, doc_id: str, start_line: int = 1) -> DocWindow:
     """Milestone (search_docs). Read a bounded window of one document in ``index``.
 
     Lines are those of ``text.splitlines()`` for the document's text in
-    ``agent_harness.data.load_docs()``, numbered from 1.
+    ``harness.data.load_docs()``, numbered from 1.
 
     Rules the tests check:
     * ``start_line`` echoes the argument; ``text`` is exactly lines

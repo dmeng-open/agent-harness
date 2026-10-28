@@ -1,12 +1,12 @@
 """Command line for the simulated-user evaluation.
 
-    uv run python -m agent_harness.simulation                 # all public personas
-    uv run python -m agent_harness.simulation --slice 3       # the first 3
-    uv run python -m agent_harness.simulation --only coding   # ids or categories containing "coding"
-    uv run python -m agent_harness.simulation --rescore runs/sim-20261001-120000
+    uv run python -m harness.simulation                 # all public personas
+    uv run python -m harness.simulation --slice 3       # the first 3
+    uv run python -m harness.simulation --only coding   # ids or categories containing "coding"
+    uv run python -m harness.simulation --rescore runs/sim-20261001-120000
 
 Run it from the repository root. It plays each persona against the agent
-behind ``agent_harness/adapters.py:run_agent_session``, prints one row per persona,
+behind ``harness/adapters.py:run_agent_session``, prints one row per persona,
 and saves every conversation record as JSON under ``runs/``.
 """
 
@@ -18,22 +18,22 @@ import os
 import sys
 from pathlib import Path
 
-from agent_harness.simulation.evaluate import (
+from harness.simulation.evaluate import (
     DEFAULT_CONCURRENCY,
     adapter_agent_factory,
     format_table,
     new_run_dir,
     run_eval,
 )
-from agent_harness.simulation.persona import load_personas
-from agent_harness.simulation.record import ConversationRecord
-from agent_harness.simulation.runner import make_judge_lm, score
+from harness.simulation.persona import load_personas
+from harness.simulation.record import ConversationRecord
+from harness.simulation.runner import make_judge_lm, score
 
 DEFAULT_PERSONA_DIR = Path("tests/fixtures/personas")
 
 
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(prog="python -m agent_harness.simulation", description=__doc__.split("\n")[0])
+    parser = argparse.ArgumentParser(prog="python -m harness.simulation", description=__doc__.split("\n")[0])
     parser.add_argument("personas", nargs="?", type=Path, default=DEFAULT_PERSONA_DIR, help="directory of persona JSON files (default: tests/fixtures/personas)")
     parser.add_argument("--slice", type=int, default=None, help="run only the first N personas (default: HARNESS_EVAL_SLICE, else all)")
     parser.add_argument("--only", default=None, help="run only personas whose id or category contains this text")
@@ -41,7 +41,7 @@ def main(argv=None) -> int:
     parser.add_argument("--concurrency", type=int, default=DEFAULT_CONCURRENCY, help="conversations run at the same time")
     parser.add_argument("--model", default=None, help='agent model: "agent" (default) or a model name')
     parser.add_argument("--salt", default=None, help="repeat the run without the cache: a string mixed into the cache keys of the agent and persona models (same as HARNESS_EVAL_SALT)")
-    parser.add_argument("--adapters", default="agent_harness.adapters", help="module that defines run_agent_session")
+    parser.add_argument("--adapters", default="harness.adapters", help="module that defines run_agent_session")
     parser.add_argument("--verbose", action="store_true", help="print the judge's reason for passed conversations too")
     parser.add_argument("--rescore", type=Path, default=None, help="score the saved records in this directory again without running the agent")
     args = parser.parse_args(argv)
@@ -76,7 +76,7 @@ def main(argv=None) -> int:
         print(format_table(records, verbose=args.verbose))
         return 0
 
-    sys.path.insert(0, os.getcwd())  # so that "agent_harness.adapters" resolves from the repository root
+    sys.path.insert(0, os.getcwd())  # so that "harness.adapters" resolves from the repository root
     adapters = importlib.import_module(args.adapters)
     out_dir = args.out or new_run_dir()
     records = run_eval(

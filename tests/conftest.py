@@ -7,7 +7,7 @@ import re
 
 import pytest
 
-from agent_harness.llm import LM, ScriptedLM, _load_env
+from harness.llm import LM, ScriptedLM, _load_env
 
 _load_env()  # so HARNESS_* settings in .env apply to the tests too
 
@@ -26,7 +26,7 @@ def scripted():
         lm = scripted([{"text": "Looking.", "tool_call": {"name": "echo", "args": {"x": 1}}},
                        "The answer is 1."])
     """
-    from agent_harness import adapters
+    from harness import adapters
 
     def make(script, *, repeat_last: bool = False) -> ScriptedLM:
         return ScriptedLM(script, formatter=adapters.run_format_tool_call, repeat_last=repeat_last)
@@ -57,7 +57,7 @@ def live_aux(request):
 @pytest.fixture(scope="session")
 def archive():
     """The full email archive as a list of Email dicts."""
-    from agent_harness import data
+    from harness import data
 
     if not data.EMAILS_PATH.exists():
         pytest.fail(

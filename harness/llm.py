@@ -17,7 +17,7 @@ What the wrapper does for you:
   costs nothing.
 * Cost ledger. Every call that reaches the provider is appended to
   ``.lm_cache/ledger.jsonl`` with its token counts and dollar cost.
-  ``uv run python -m agent_harness.llm`` prints a spending report.
+  ``uv run python -m harness.llm`` prints a spending report.
 * Budget stop. If ``HARNESS_BUDGET_USD`` is set, the wrapper raises
   ``BudgetExceeded`` instead of making a call once the ledger total passes it.
 * Truncation. A call that stops because the model reached ``max_tokens``
@@ -150,7 +150,7 @@ def _price(model: str) -> tuple[float, float, float]:
                 best = (prefix, price)
     if best is None:
         raise KeyError(
-            f"No price on file for model {model!r}. Add it to PRICES in agent_harness/llm.py."
+            f"No price on file for model {model!r}. Add it to PRICES in harness/llm.py."
         )
     return best[1]
 
@@ -531,7 +531,7 @@ class ScriptedLM:
             return text
         if self.formatter is None:
             raise RuntimeError("ScriptedLM needs a formatter to render scripted tool calls")
-        from agent_harness.types import ToolCall
+        from harness.types import ToolCall
 
         return self.formatter(text, ToolCall(name=call["name"], args=dict(call.get("args", {}))))
 
@@ -573,5 +573,5 @@ def spending_report(rows: list[dict] | None = None) -> str:
     return "\n".join(lines)
 
 
-if __name__ == "__main__":  # uv run python -m agent_harness.llm
+if __name__ == "__main__":  # uv run python -m harness.llm
     print(spending_report())

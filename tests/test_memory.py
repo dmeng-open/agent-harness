@@ -20,9 +20,9 @@ from __future__ import annotations
 
 import pytest
 
-from agent_harness.types import AgentConfig, AgentResult
-from agent_harness.user import ScriptedUser
-from agent_harness import adapters
+from harness.types import AgentConfig, AgentResult
+from harness.user import ScriptedUser
+from harness import adapters
 from tests.fixture_tools import make_fixture_tools
 from tests.helpers import contains, events
 from tests.thresholds import MEMORY_MIN_CORRECT

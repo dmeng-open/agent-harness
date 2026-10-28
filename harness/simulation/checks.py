@@ -22,7 +22,7 @@ import json
 import re
 from typing import Callable, Optional
 
-from agent_harness.simulation.record import (
+from harness.simulation.record import (
     CheckResult,
     ConversationRecord,
     SessionRecord,

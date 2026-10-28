@@ -77,7 +77,7 @@ import threading
 from dataclasses import dataclass
 from pathlib import Path
 
-from agent_harness import data, sandbox_windows
+from harness import data, sandbox_windows
 
 ALLOWED_PROGRAMS = (
     "python3", "python", "cat", "head", "tail", "grep", "wc", "sort", "uniq", "cut",
@@ -170,7 +170,7 @@ def check_command(cmd: str) -> str:
 @functools.cache
 def _state_dir() -> Path:
     """A temporary directory for this process, removed when the process exits."""
-    path = Path(tempfile.mkdtemp(prefix="agent_harness_sandbox_")).resolve()
+    path = Path(tempfile.mkdtemp(prefix="harness_sandbox_")).resolve()
     atexit.register(_remove_tree, path)
     return path
 
@@ -203,7 +203,7 @@ def make_workspace(path: str | Path | None = None) -> Path:
     the corpus in it as ``emails.jsonl`` and ``docs/`` unless they are already
     there, and return it. ``emails.jsonl`` is left out if the archive has not
     been downloaded."""
-    ws = Path(path).resolve() if path is not None else Path(tempfile.mkdtemp(prefix="agent_harness_ws_"))
+    ws = Path(path).resolve() if path is not None else Path(tempfile.mkdtemp(prefix="harness_ws_"))
     ws.mkdir(parents=True, exist_ok=True)
     emails, docs = ws / "emails.jsonl", ws / "docs"
     if data.EMAILS_PATH.exists() and not os.path.lexists(emails):

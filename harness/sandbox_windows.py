@@ -1,4 +1,4 @@
-"""The Windows parts of ``agent_harness.sandbox``. Not used on macOS or Linux.
+"""The Windows parts of ``harness.sandbox``. Not used on macOS or Linux.
 
 Three things differ on Windows and are kept here so that ``sandbox.py`` stays
 short:

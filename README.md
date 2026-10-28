@@ -67,19 +67,19 @@ With `-s`, each live test prints its score and the items it got wrong.
 ## Tools
 
 ```sh
-uv run python -m agent_harness.show bm25 "larchfield audit"     # run one pipeline on real data
-uv run python -m agent_harness.show digest 2001-06-22 --labels --limit 30
-uv run python -m agent_harness.chat --mode confirm              # talk to the agent
-uv run python -m agent_harness.simulation --slice 3             # simulated-user evaluation
-uv run python -m agent_harness.llm                              # spending report
+uv run python -m harness.show bm25 "larchfield audit"     # run one pipeline on real data
+uv run python -m harness.show digest 2001-06-22 --labels --limit 30
+uv run python -m harness.chat --mode confirm              # talk to the agent
+uv run python -m harness.simulation --slice 3             # simulated-user evaluation
+uv run python -m harness.llm                              # spending report
 ```
 
 ## Model calls and spending
 
-Every model call goes through `agent_harness.llm.LM`.
+Every model call goes through `harness.llm.LM`.
 
 ```python
-from agent_harness.llm import LM
+from harness.llm import LM
 
 lm = LM()            # the agent model, anthropic/claude-haiku-5-5
 judge = LM("judge")  # the evaluation judge, anthropic/claude-sonnet-5-5
@@ -97,13 +97,13 @@ Deleting `.lm_cache/` deletes both the cache and the ledger.
 
 ## The terminal sandbox
 
-`agent_harness.sandbox.run_terminal(cmd)` runs one shell command for the
+`harness.sandbox.run_terminal(cmd)` runs one shell command for the
 agent, with a program allowlist, a scrubbed environment, and a timeout. On
 macOS and on Linux with bubblewrap, it also uses an operating-system jail.
 There is no jail on Windows. To see which jail your machine uses:
 
 ```sh
-uv run python -c "from agent_harness import sandbox; print(sandbox.jail())"
+uv run python -c "from harness import sandbox; print(sandbox.jail())"
 ```
 
 ## License

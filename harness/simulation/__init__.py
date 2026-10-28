@@ -9,17 +9,17 @@
     record.py        ConversationRecord, the data all of the above share
 """
 
-from agent_harness.simulation.evaluate import (
+from harness.simulation.evaluate import (
     adapter_agent_factory,
     format_table,
     points,
     required_successes,
     run_eval,
 )
-from agent_harness.simulation.persona import Persona, load_persona, load_personas, parse_persona
-from agent_harness.simulation.persona_user import PersonaUser
-from agent_harness.simulation.record import ConversationRecord, SessionRecord
-from agent_harness.simulation.runner import run_persona
+from harness.simulation.persona import Persona, load_persona, load_personas, parse_persona
+from harness.simulation.persona_user import PersonaUser
+from harness.simulation.record import ConversationRecord, SessionRecord
+from harness.simulation.runner import run_persona
 
 __all__ = [
     "ConversationRecord",

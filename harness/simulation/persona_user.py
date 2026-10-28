@@ -17,14 +17,14 @@ import json
 import re
 from typing import Callable, Optional
 
-from agent_harness.cardinal import CARDINAL_TOOLS
-from agent_harness.simulation.persona import Persona, SessionSpec
-from agent_harness.simulation.record import args_text
-from agent_harness.types import Approval, ToolCall
-from agent_harness.user import UserIO
+from harness.cardinal import CARDINAL_TOOLS
+from harness.simulation.persona import Persona, SessionSpec
+from harness.simulation.record import args_text
+from harness.types import Approval, ToolCall
+from harness.user import UserIO
 
 # Tools the persona approves without a model call when your agent asks for
-# approval in confirm mode: every tool that agent_harness/cardinal.py marks
+# approval in confirm mode: every tool that harness/cardinal.py marks
 # read-only, plus read_email. This way your auto-approval policy for
 # read-only tools does not change the outcome. A persona override can still
 # deny one. Any other tool (run_terminal, or a tool you added under a new
