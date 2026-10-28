@@ -12,8 +12,8 @@ from __future__ import annotations
 
 import pytest
 
-from agent_harness.types import ToolResult, ToolSpec
-from agent_harness import adapters
+from harness.types import ToolResult, ToolSpec
+from harness import adapters
 from tests.fixture_tools import DIRECTORY, FAIL_MESSAGE, TOOL_NAMES, make_fixture_tools
 
 
@@ -33,7 +33,7 @@ def execute(registry, name, args) -> ToolResult:
             pytrace=False,
         )
     assert isinstance(result, ToolResult), (
-        f"execute({name!r}, {args!r}) must return a agent_harness.types.ToolResult, "
+        f"execute({name!r}, {args!r}) must return a harness.types.ToolResult, "
         f"got {type(result).__name__}: {result!r}"
     )
     assert isinstance(result.content, str), (

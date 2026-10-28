@@ -6,8 +6,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 
-from agent_harness.llm import ScriptedLM
-from agent_harness import adapters
+from harness.llm import ScriptedLM
+from harness import adapters
 from tests.conftest import eval_slice
 from tests.helpers import contains_any, load_fixture
 from tests.thresholds import EMAIL_QA_MIN_ACCURACY
@@ -113,7 +113,7 @@ _cache: dict = {}
 def make_search(archive):
     """search(query, k) over the archive, built from your BM25 index."""
     if "index" not in _cache:
-        from agent_harness.data import email_text
+        from harness.data import email_text
 
         _cache["index"] = adapters.run_bm25_build([email_text(email) for email in archive])
     index = _cache["index"]

@@ -12,9 +12,9 @@ uv run pytest tests/test_sim_eval.py                 # one scripted conversation
 uv run pytest tests/test_sim_eval.py -m live -s      # all public personas, live
 HARNESS_EVAL_SLICE=3 uv run pytest tests/test_sim_eval.py -m live -s
 
-uv run python -m agent_harness.simulation --slice 3     # same run from the command line
-uv run python -m agent_harness.simulation --only memory # personas whose id or category contains "memory"
-uv run python -m agent_harness.simulation --rescore runs/sim-20261001-120000
+uv run python -m harness.simulation --slice 3     # same run from the command line
+uv run python -m harness.simulation --only memory # personas whose id or category contains "memory"
+uv run python -m harness.simulation --rescore runs/sim-20261001-120000
 ```
 
 Both entry points print one row per persona (result, user turns, tool calls,
@@ -33,7 +33,7 @@ again and is charged.
 
 `--model` changes only the models your agent uses: its own turns and
 `aux_lm`. The simulated user always runs on the "user" model and the judge
-on the "judge" model (see `agent_harness/llm.py`). The judge is the most
+on the "judge" model (see `harness/llm.py`). The judge is the most
 expensive model of the three per token and the largest single part of the
 cost of a run.
 
@@ -69,7 +69,7 @@ answers.
    `user` set to a `PersonaUser`, `memory_dir`, `workspace`, and the limits
    defined at the top of `runner.py` (`max_turns=20`, `token_budget=400000`,
    `context_budget=16000`). It calls
-   `agent_harness.adapters.run_agent_session(lm, None, config)`, so your agent runs
+   `harness.adapters.run_agent_session(lm, None, config)`, so your agent runs
    with the full Cardinal toolset.
 3. The persona sends its opening message with `session.send(...)`. After each
    reply the persona model decides to continue with another message, to stop

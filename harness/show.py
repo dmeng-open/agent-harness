@@ -1,11 +1,11 @@
 """See what your Part 1 pipelines produce on real data.
 
-    uv run python -m agent_harness.show priority em-12167 [em-...]   # label one or more emails
-    uv run python -m agent_harness.show digest 2001-06-22 [--labels] [--limit N]  # the digest for one day
-    uv run python -m agent_harness.show bm25 "larchfield audit" [--k 5]    # search the archive with your index
-    uv run python -m agent_harness.show email_qa "Who leads the Basin Analytics move?"
-    uv run python -m agent_harness.show search_docs "parental leave" [--k 5]
-    uv run python -m agent_harness.show memory [DIR]   # a memory store (e.g. .lm_cache/chat_memory), or every persona's after an evaluation
+    uv run python -m harness.show priority em-12167 [em-...]   # label one or more emails
+    uv run python -m harness.show digest 2001-06-22 [--labels] [--limit N]  # the digest for one day
+    uv run python -m harness.show bm25 "larchfield audit" [--k 5]    # search the archive with your index
+    uv run python -m harness.show email_qa "Who leads the Basin Analytics move?"
+    uv run python -m harness.show search_docs "parental leave" [--k 5]
+    uv run python -m harness.show memory [DIR]   # a memory store (e.g. .lm_cache/chat_memory), or every persona's after an evaluation
 
 Each command calls your adapters the way the tests do, on the default agent model,
 and prints the result with the cost and time of the calls. Repeating a
@@ -29,8 +29,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from agent_harness import data  # noqa: E402
-from agent_harness.llm import LM  # noqa: E402
+from harness import data  # noqa: E402
+from harness.llm import LM  # noqa: E402
 
 # ANSI colors, on when stdout is a terminal and NO_COLOR is not set.
 _COLOR = sys.stdout.isatty() and not os.environ.get("NO_COLOR")
@@ -64,7 +64,7 @@ def _finish(lm: LM, started: float) -> None:
 
 
 def show_priority(args) -> None:
-    from agent_harness import adapters
+    from harness import adapters
 
     by_id = {e["id"]: e for e in data.load_emails()}
     lm = LM(tag="show/priority")
@@ -83,7 +83,7 @@ def show_priority(args) -> None:
 
 
 def show_digest(args) -> None:
-    from agent_harness import adapters
+    from harness import adapters
 
     emails = data.emails_on(args.date)
     if not emails:
@@ -112,7 +112,7 @@ _archive_index: dict = {}
 def archive_index():
     """Your BM25 index over the archive, built once per process (a few seconds)."""
     if "index" not in _archive_index:
-        from agent_harness import adapters
+        from harness import adapters
 
         archive = data.load_emails()
         started = time.time()
@@ -123,7 +123,7 @@ def archive_index():
 
 
 def show_bm25(args) -> None:
-    from agent_harness import adapters
+    from harness import adapters
 
     archive, index = archive_index()
     started = time.time()
@@ -138,7 +138,7 @@ def show_bm25(args) -> None:
 
 
 def show_email_qa(args) -> None:
-    from agent_harness import adapters
+    from harness import adapters
 
     archive, index = archive_index()
     lm = LM(tag="show/email_qa")
@@ -169,7 +169,7 @@ def show_email_qa(args) -> None:
 
 
 def show_search_docs(args) -> None:
-    from agent_harness import adapters
+    from harness import adapters
 
     index = adapters.run_build_doc_index(data.load_docs())
     results = adapters.run_search_docs(index, args.query, args.k)

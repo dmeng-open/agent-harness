@@ -1,7 +1,7 @@
 """Tests for milestone (cardinal). Deterministic: no model calls.
 
 ``run_agent_session(lm, None, config)`` builds a session with the Cardinal
-toolset, the ten tools named in ``agent_harness/cardinal.py``. These tests
+toolset, the ten tools named in ``harness/cardinal.py``. These tests
 check the toolset itself, not what the tools do (later problems test that):
 
 * With ``tools=None`` the system prompt of the first model call names all
@@ -19,11 +19,11 @@ from pathlib import Path
 
 import pytest
 
-from agent_harness import data
-from agent_harness.cardinal import CARDINAL_TOOLS
-from agent_harness.types import AgentConfig
-from agent_harness.user import ScriptedUser
-from agent_harness import adapters
+from harness import data
+from harness.cardinal import CARDINAL_TOOLS
+from harness.types import AgentConfig
+from harness.user import ScriptedUser
+from harness import adapters
 from tests.fixture_tools import TOOL_NAMES, make_fixture_tools
 
 CARDINAL_NAMES = list(CARDINAL_TOOLS)

@@ -1,8 +1,8 @@
 """Talk to your agent in the terminal.
 
-    uv run python -m agent_harness.chat [--mode confirm|auto] [--memory-dir DIR] [--out DIR]
+    uv run python -m harness.chat [--mode confirm|auto] [--memory-dir DIR] [--out DIR]
 
-This builds one session with ``agent_harness.adapters.run_agent_session(LM(), None,
+This builds one session with ``harness.adapters.run_agent_session(LM(), None,
 config)``, so it runs your full Cardinal toolset on the default agent model.
 You are the user: in confirm mode you are asked to approve
 tool calls, and ``ask_user`` questions are put to you. Type ``exit`` or
@@ -22,11 +22,11 @@ import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # so `agent_harness.adapters` imports from any directory
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # so `harness.adapters` imports from any directory
 
-from agent_harness.llm import LM
-from agent_harness.types import AgentConfig
-from agent_harness.user import ConsoleUser
+from harness.llm import LM
+from harness.types import AgentConfig
+from harness.user import ConsoleUser
 
 
 def main() -> None:
@@ -36,7 +36,7 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path("runs"), help="where to save the conversation")
     args = parser.parse_args()
 
-    from agent_harness import adapters  # your wiring
+    from harness import adapters  # your wiring
 
     config = AgentConfig(
         mode=args.mode,

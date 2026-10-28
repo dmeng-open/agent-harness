@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import Optional, Sequence
 
-from agent_harness.types import Approval, ToolCall
+from harness.types import Approval, ToolCall
 
 
 class UserIO:

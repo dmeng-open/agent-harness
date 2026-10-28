@@ -13,8 +13,8 @@ import json
 import jsonschema
 import pytest
 
-from agent_harness.types import ParsedResponse, ToolCall
-from agent_harness import adapters
+from harness.types import ParsedResponse, ToolCall
+from harness import adapters
 from tests.conftest import eval_slice
 from tests.fixture_tools import TOOL_NAMES, make_fixture_tools
 from tests.helpers import load_fixture
@@ -35,7 +35,7 @@ def parse(reply: str) -> ParsedResponse:
             pytrace=False,
         )
     assert isinstance(parsed, ParsedResponse), (
-        f"run_parse_response must return a agent_harness.types.ParsedResponse, "
+        f"run_parse_response must return a harness.types.ParsedResponse, "
         f"got {type(parsed).__name__}"
     )
     if parsed.error is not None:

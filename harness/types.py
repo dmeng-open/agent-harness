@@ -1,7 +1,7 @@
 """Data types shared by the implementation and the tests.
 
 You may add your own types anywhere in the package. The ones below are the
-types that cross the boundary in ``agent_harness/adapters.py``, so use them as they
+types that cross the boundary in ``harness/adapters.py``, so use them as they
 are (do not rename fields).
 
 Two kinds of type appear here. A ``TypedDict`` (Email, SearchResult,
@@ -20,7 +20,7 @@ from typing import Any, Callable, Literal, Optional, TypedDict
 Message = dict  # {"role": "system" | "user" | "assistant", "content": str}
 
 # Every model the tests hand you has this shape: a list of messages in, the
-# reply text out. ``agent_harness.llm.LM`` and ``ScriptedLM`` are both one of
+# reply text out. ``harness.llm.LM`` and ``ScriptedLM`` are both one of
 # these. There is no tool-calling or structured-output feature behind it.
 LMCallable = Callable[[list[Message]], str]
 
@@ -129,7 +129,7 @@ class AgentConfig:
     memory_dir: Optional[Path] = None  # where persistent memory lives
     # Milestone (interactive)
     mode: Literal["confirm", "auto"] = "auto"
-    user: Any = None  # a agent_harness.user.UserIO, or None for no human
+    user: Any = None  # a harness.user.UserIO, or None for no human
     # Milestone (guardrails)
     deny_rules: tuple[str, ...] = ()  # regexes over the run_terminal command
     # A second model for calls that are not the agent's own turns

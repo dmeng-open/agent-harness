@@ -12,7 +12,7 @@ import time
 
 import pytest
 
-from agent_harness import adapters
+from harness import adapters
 from tests.helpers import load_fixture
 
 # Limits for the full archive. The time limits are about four times what the
@@ -197,7 +197,7 @@ _archive_index: dict = {}
 def archive_index(archive):
     """Build the index over the archive once per test run; remember how long it took."""
     if not _archive_index:
-        from agent_harness.data import email_text
+        from harness.data import email_text
 
         docs = [email_text(email) for email in archive]
         start = time.perf_counter()

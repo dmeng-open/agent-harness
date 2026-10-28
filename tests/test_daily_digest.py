@@ -6,8 +6,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 
-from agent_harness.llm import ScriptedLM
-from agent_harness import adapters
+from harness.llm import ScriptedLM
+from harness import adapters
 from tests.conftest import eval_slice
 from tests.helpers import contains, contains_any, load_fixture
 

@@ -17,7 +17,7 @@ from __future__ import annotations
 import copy
 from typing import Any, Callable
 
-from agent_harness.types import ToolSpec
+from harness.types import ToolSpec
 
 
 def _schema(properties: dict, required: list[str]) -> dict:

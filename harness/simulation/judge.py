@@ -18,9 +18,9 @@ import json
 import re
 from typing import Callable
 
-from agent_harness.simulation.persona import Persona
-from agent_harness.simulation.persona_user import render_dialogue
-from agent_harness.simulation.record import ConversationRecord, JudgeResult, tool_calls
+from harness.simulation.persona import Persona
+from harness.simulation.persona_user import render_dialogue
+from harness.simulation.record import ConversationRecord, JudgeResult, tool_calls
 
 MAX_REPLY_CHARS = 4000  # per agent reply shown to the judge
 MAX_ARGS_CHARS = 300  # per tool call

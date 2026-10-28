@@ -25,9 +25,9 @@ import time
 
 import pytest
 
-from agent_harness.tokens import count_message_tokens, count_tokens
-from agent_harness.types import AgentConfig, AgentResult
-from agent_harness import adapters
+from harness.tokens import count_message_tokens, count_tokens
+from harness.types import AgentConfig, AgentResult
+from harness import adapters
 from tests.conftest import eval_slice
 from tests.helpers import FIXTURES, contains_any, events, load_fixture
 from tests.thresholds import TERMINAL_MIN_CORRECT_FRACTION

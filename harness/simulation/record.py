@@ -35,7 +35,7 @@ class SessionRecord:
     #   {"kind": "approval", "tool": str, "args": dict, "approved": bool,
     #    "reason": str, "source": "override" | "read_only" | "persona"}
     dialogue: list[dict] = field(default_factory=list)
-    # session.transcript: the agent's own event log (see agent_harness/types.py).
+    # session.transcript: the agent's own event log (see harness/types.py).
     transcript: list[dict] = field(default_factory=list)
     ending: str = "max_turns"
 

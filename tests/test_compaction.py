@@ -21,10 +21,10 @@ import copy
 
 import pytest
 
-from agent_harness.llm import ScriptedLM
-from agent_harness.tokens import count_message_tokens, count_tokens
-from agent_harness.types import AgentConfig, AgentResult
-from agent_harness import adapters
+from harness.llm import ScriptedLM
+from harness.tokens import count_message_tokens, count_tokens
+from harness.types import AgentConfig, AgentResult
+from harness import adapters
 from tests.fixture_tools import make_fixture_tools
 from tests.helpers import events
 

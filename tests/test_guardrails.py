@@ -26,9 +26,9 @@ import re
 
 import pytest
 
-from agent_harness.types import AgentConfig, AgentResult, Approval, ToolCall
-from agent_harness.user import ScriptedUser
-from agent_harness import adapters
+from harness.types import AgentConfig, AgentResult, Approval, ToolCall
+from harness.user import ScriptedUser
+from harness import adapters
 from tests.conftest import eval_slice
 from tests.helpers import contains_any, events, load_fixture
 from tests.thresholds import GUARDRAILS_MIN_ANSWERED_FRACTION
